@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letter Management</title>
+    <link rel="stylesheet" href="Assests/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="CSS/table.css">
+    <style>
+        body {
+            background: url("img/bg.jpg") no-repeat center center fixed;
+            background-size: cover;
+            backdrop-filter: blur(8px);
+            overflow: hidden;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.536);
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #1d3557 !important; 
+            background-color: #f1faee;  
+            border-radius: 5px; 
+            transition: background-color 0.3s ease, color 0.3s ease; 
+        }
+
+        @media print {
+            #nav {
+                display: none;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+        }
+        
+        .table-scroll {
+            max-height: 420px; 
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            display: block;
+            margin-top: -30px;
+        }
+
+        table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background-color: white;
+        }
+
+        .table td.address-column {
+            width: 500px;
+            word-wrap: break-word;
+            white-space: normal;
+        }
+
+    </style>
+</head>
+
+<body>
+    <nav id="nav" class="navbar navbar-fluid navbar-expand-lg sticky-top" style="background-color: #a8dadc;">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="img/logo.png" class="ms-3" alt="Logo" style="height: 40px; width: 40px;">
+                <span class="h5 mb-0 fw-bolder ms-3">Letter Management System</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav me-auto ms-5">
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold" href="admin.html" onclick="loadContent('admin.html')">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold" href="javascript:void(0);" onclick="loadContent('check.html')">Received</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold" href="javascript:void(0);" onclick="loadContent('form.html')">Receipt</a>
+                    </li>
+                    <li class="nav-item admin-only">
+                        <a class="nav-link fw-bold" href="javascript:void(0);" onclick="loadContent('Send_Reciept.html')">Reciepts Details</a>
+                    </li>
+                    <li class="nav-item admin-only">
+                        <a class="nav-link fw-bold" href="summary.html">Summary</a>
+                    </li>
+                    <li class="nav-item admin-only">
+                        <a class="nav-link fw-bold" href="javascript:void(0);" onclick="loadContent('date_info.html')">Date Info</a>
+                    </li>
+                    </ul>
+                    <div class="dropdown ms-auto me-4">
+                        <button class="btn fw-bolder nav-link" type="button" id="userTypeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="img/user.png" alt="user" style="width: 24px; height: 24px;">
+                            <span id="userType">User Type</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userTypeDropdown">
+                            <li><button class="dropdown-item" onclick="logout()"><img src="img/logout.png"
+                                        style="width: 24px; height: 24px; margin-right: 10px;"> Logout</button></li>
+                        </ul>
+                    </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="content" class="container">
+        <div class="d-flex" id="filterId">
+            <div class="p-5 col-12 col-md-12 position-relative">
+                <div class="row">
+                    <div class="col-12 col-md-12 mb-3">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <input type="date" id="d1" class="form-control" placeholder="Date">
+                            </div>
+                            <div class="col-lg-4">
+                                <select class="form-select" id="dept">
+                                    <option value="">Select Department</option>
+                                    <option value="ගිණුම් අංශය">ගිණුම් අංශය</option>
+                                    <option value="ආයතන අංශය">ආයතන අංශය</option>
+                                    <option value="ක්‍රීඩා අංශය">ක්‍රීඩා අංශය</option>
+                                    <option value="සංවර්ධන අංශය">සංවර්ධන අංශය </option>
+                                    <option value="සංස්කෘතික අංශය">සංස්කෘතික අංශය</option>
+                                    <option value="ග්‍රාම සංවර්ධන අංශය">ග්‍රාම සංවර්ධන අංශය</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-4 col-md-4">
+                                <button class="btn btn-primary w-10" id="btn-search"
+                                    onclick="advSearch();">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-scroll">
+            <table class="table mt-5">
+                <thead>
+                    <tr>
+                        <th>Letter ID</th>
+                        <th>Subject ID</th>
+                        <th>Department Name</th>
+                        <th class="address-column">Address</th>
+                        <th>Price</th>
+                        <th>Submit Date</th>
+                        <th>Received Date</th>
+                        <th>Received</th>
+                        <th class="admin-only">Delete</th>
+                    </tr>
+                </thead>
+                <tbody id="data-table">
+                    <!-- Search results will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <button type="submit" id="submit-button" class="btn btn-success mt-2">Submit</button>
+                <button class="btn btn-warning w-10 mt-2 ms-3" id="btn-show-unchecked" onclick="showUncheckedRecords();">
+                    Pending
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+                const urlParams = new URLSearchParams(window.location.search);
+
+                if (urlParams.get('success')) {
+                    alert('Record created successfully!');
+                }
+
+                if (urlParams.get('error')) {
+                    alert('The ID already exists. Please enter a unique ID.');
+                }
+
+                if (urlParams.get('success') || urlParams.get('error')) {
+                    history.replaceState(null, '', window.location.pathname);
+                }
+            });
+
+
+        function logout() {
+            localStorage.removeItem('user_type');
+            localStorage.removeItem('loggedIn');
+            window.location.href = 'logIn.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+                var userType = localStorage.getItem('user_type');
+                if (!userType) {
+                    window.location.href = 'logIn.html';
+                } else {
+                    document.getElementById('userType').textContent = userType;
+
+                    if (userType !== 'Admin') {
+                        var adminOnlyElements = document.querySelectorAll('.admin-only');
+                        adminOnlyElements.forEach(function (element) {
+                            element.style.display = 'none';
+                        });
+                    }
+                }
+            });
+
+
+        function loadContent(page) {
+            fetch(page)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('content').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading page:', error));
+        }
+
+        function fetchAllData() {
+            document.getElementById("data-table").innerHTML = "<tr><td colspan='6'>Loading...</td></tr>";
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "php/receive_admin.php", true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const response = xhr.responseText.trim();
+                    document.getElementById("data-table").innerHTML = response || "<tr><td colspan='6'>No records found</td></tr>";
+                } else {
+                    console.error("Error: " + xhr.statusText);
+                    document.getElementById("data-table").innerHTML = "<tr><td colspan='6'>An error occurred</td></tr>";
+                }
+            };
+            xhr.onerror = function () {
+                console.error("Request failed");
+                document.getElementById("data-table").innerHTML = "<tr><td colspan='6'>An error occurred</td></tr>";
+            };
+            xhr.send();
+        }
+
+        document.getElementById('submit-button').addEventListener('click', () => {
+                const records = [];
+
+                document.querySelectorAll('tr').forEach(row => {
+                    const priceInput = row.querySelector('[id^=price]');
+                    if (priceInput) {
+                        const id = priceInput.id.replace('price', '');
+                        const RtimeElement = document.getElementById('Rtime' + id);
+
+                        const timeElement = document.getElementById('time' + id);
+                        records.push({
+                            id: id,
+                            Sid: row.cells[1]?.textContent.trim() || '',
+                            name: row.cells[2]?.textContent.trim() || '',
+                            address: row.cells[3]?.textContent.trim() || '',
+                            price: priceInput.value.trim() || '',
+                            time: timeElement ? timeElement.value.trim() : null, 
+                            Rtime: RtimeElement ? RtimeElement.value.trim() : null,
+                            checked: row.querySelector('.received-checkbox')?.checked ? 1 : 0
+                        });
+
+
+                    }
+                });
+
+                if (records.length === 0) {
+                    alert('No records found to submit.');
+                    return;
+                }
+
+                fetch('php/save_receive.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ records })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            alert('Data saved successfully!');
+                        } else {
+                            alert('Error: ' + (data.error || 'Unknown error occurred'));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while submitting the data.');
+                    });
+            });
+
+
+
+        document.addEventListener('click', function (event) {
+                if (event.target.classList.contains('delete-button')) {
+                    var id = event.target.getAttribute('data-id');
+                    var deleteType = event.target.getAttribute('data-type');
+
+                    if (confirm('Are you sure you want to delete this record?')) {
+                        var deleteUrl = deleteType === 'record'
+                            ? 'php/delete_record.php'
+                            : 'php/delete_download.php';
+
+                        fetch(deleteUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ id: id })
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    event.target.closest('tr').remove();
+                                    alert('Record deleted successfully.');
+                                } else {
+                                    alert('Error deleting record: ' + (data.error || 'Unknown error'));
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('An error occurred while deleting the record.');
+                            });
+                    }
+                }
+            });
+        function showUncheckedRecords() {
+            window.location.href = 'adminPending.html';
+        }
+
+
+
+    </script>
+
+    <script src="Assests/bootstrap/js/bootstrap.bundle.min.js" defer></script>
+    <script src="Js/receive_admin.js" defer></script>
+    <script src="Js/check.js"></script>
+    <script src="Js/admin_down.js"></script>
+    <script src="Js/date_info.js"></script>
+
+</body>
+
+</html>

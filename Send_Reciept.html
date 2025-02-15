@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Letters</title>
+
+    <link rel="stylesheet" href="Assests/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="CSS/table.css">
+</head>
+
+<body>
+    <div class="d-flex" id="filterId">
+        <div class="p-5 col-12 col-md-12 position-relative">
+            <div class="row">
+                <div class="col-12 col-md-12 mb-3">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <input type="date" id="d1" class="form-control" placeholder="Date">
+                        </div>
+                        <div class="col-lg-4 col-md-2">
+                            <button class="btn btn-primary w-10" id="btn-search"
+                                onclick="advSearchDownAD();">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table mt-5">
+        <thead>
+            <tr>
+                <th>Receipt No</th>
+                <th>Name</th>
+                <th>Date</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="data-table2">
+            <!-- Search results  -->
+        </tbody>
+    </table>
+
+    <script src="Assests/bootstrap/js/bootstrap.min.js"></script>
+    <script src="Js/admin_down.js"></script>
+    <!-- <script>
+        function advSearchDownAD() {
+            let incrementDate = document.getElementById("d1").value.trim();
+            if (!incrementDate) {
+                alert("Please select a date");
+                return;
+            }
+
+            document.getElementById("data-table2").innerHTML =
+                "<tr><td colspan='3'>Loading...</td></tr>";
+
+            let xhr = new XMLHttpRequest();
+            let params = "date=" + encodeURIComponent(incrementDate);
+
+            xhr.open("GET", "php/filter_admin_download.php?" + params, true);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const response = xhr.responseText.trim();
+                    document.getElementById("data-table2").innerHTML =
+                        response || "<tr><td colspan='3'>No records found</td></tr>";
+                    clearFilterFields();
+                } else {
+                    console.error("Error: " + xhr.statusText);
+                    document.getElementById("data-table2").innerHTML =
+                        "<tr><td colspan='3'>An error occurred</td></tr>";
+                }
+            };
+
+            xhr.onerror = function () {
+                console.error("Request failed");
+                document.getElementById("data-table2").innerHTML =
+                    "<tr><td colspan='3'>An error occurred</td></tr>";
+            };
+
+            xhr.send();
+        }
+
+        function clearFilterFields() {
+            document.getElementById("d1").value = "";
+        }
+    </script> -->
+</body>
+
+</html>

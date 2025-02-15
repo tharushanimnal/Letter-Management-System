@@ -1,0 +1,34 @@
+.form-box {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .form-box h2 {
+        color: #007bff;
+    }
+
+    .form-box label {
+        color: #495057;
+        font-size: 12px;
+    }
+
+    .form-select, .form-control {
+        box-shadow: none;
+        border: 1px solid #ced4da;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }

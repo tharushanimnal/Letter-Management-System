@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letter Management</title>
+    <link rel="stylesheet" href="Assests/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="CSS/table.css">
+    <style>
+        body {
+        background: url("img/bg.jpg") no-repeat center center fixed;
+        background-size: cover;
+        backdrop-filter: blur(8px);
+        overflow: hidden;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .card{
+        background-color: rgba(255, 255, 255, 0.536);
+      }
+
+      .navbar-nav .nav-link:hover {
+        color: #0d428d !important; 
+        background-color: #f1faee;  
+        border-radius: 5px; 
+        transition: background-color 0.3s ease, color 0.3s ease; 
+        }
+
+      @media print{
+        #nav
+            {
+                display: none;
+            }
+      }
+
+    </style>
+    <script>
+        function loadContent(page) {
+            fetch(page)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('content').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading page:', error));
+        }
+    </script>
+</head>
+
+<body>
+    <nav id="nav" class="navbar navbar-expand-lg sticky-top" style="background-color: #a8dadc;">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="img/logo.png" class="ms-3" alt="Logo" style="height: 40px; width: 40px;">
+                <span class="h5 mb-0 fw-bolder ms-3">Letter Management System</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav me-auto ms-5">
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="javascript:void(0);" onclick="loadContent('send.html')">Send</a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="javascript:void(0);" onclick="loadContent('view.html')">View</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div id="content" class="container">
+        <div id="page" class="site">
+            <div class="container mt-5 d-flex justify-content-center">
+                <div class="form-box p-5 border rounded shadow-lg card w-100">
+                    <form action="php/submit.php" method="post" enctype="multipart/form-data">
+                        <div class="form-step active">
+                            <div class="text-center mb-5">
+                                <h2 class="text-primary fw-bold">ලිපි තොරතුරු</h2>
+                                <p class="text-muted fs-4">පහත විස්තර ඇතුලත් කරන්න</p>
+                            </div>
+    
+                            <div class="row">
+                                <div class="col-md-6 mb-4" id="auto-id-container">
+                                    <label for="id" class="form-label fs-6 fw-bold">ලිපි අංකය :</label>
+                                    <input type="text" id="id" name="id" class="form-control form-control-sm" placeholder="Enter ID" required readonly>
+                                </div>
+    
+                                <div class="col-md-6 mb-4">
+                                    <label for="num" class="form-label fs-6 fw-bold">විශය අංකය :</label>
+                                    <input type="text" id="num" name="num" class="form-control form-control-sm"
+                                        placeholder="විශය අංකය ඇතුලත් කරන්න" required onblur="checkIDExists()">
+                                    <small id="id-error" class="text-danger fw-bold"></small>
+                                </div>
+    
+                                <div class="col-md-6 mb-4">
+                                    <label for="option1" class="form-label fs-6 fw-bold">අංශය:</label>
+                                    <select id="option1" name="option1" class="form-select form-select-sm required">
+                                        <option value="" disabled selected hidden>අංශය තෝරන්න</option>
+                                        <option value="ගිණුම් අංශය">ගිණුම් අංශය</option>
+                                        <option value="ආයතන අංශය">ආයතන අංශය</option>
+                                        <option value="ක්‍රීඩා අංශය">ක්‍රීඩා අංශය</option>
+                                        <option value="සංවර්ධන අංශය">සංවර්ධන අංශය </option>
+                                        <option value="සංස්කෘතික අංශය">සංස්කෘතික අංශය</option>
+                                        <option value="ග්‍රාම සංවර්ධන අංශය">ග්‍රාම සංවර්ධන අංශය</option>
+                                    </select>
+                                </div>
+    
+                                <div class="col-md-6 mb-4">
+                                    <label for="address" class="form-label fs-6 fw-bold">ලිපිනය :</label>
+                                    <input type="text" id="address" name="address" class="form-control form-control-sm"
+                                        placeholder="ලිපිනය ඇතුලත් කරන්න" required>
+                                </div>
+    
+                                <div class="col-md-6 mb-4">
+                                    <label for="price" class="form-label fs-6 fw-bold">මිල :</label>
+                                    <input type="text" id="price" name="price" class="form-control form-control-sm"
+                                        placeholder="මිල ඇතුලත් කරන්න (අත්‍යාවශ්‍ය නොවේ.)">
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <label for="date" class="form-label fs-6 fw-bold">දිනය :</label>
+                                    <input type="date" id="date" name="date" class="form-control form-control-sm">
+                                </div>
+                            </div>
+    
+                            <div class="d-flex justify-content-center mt-4">
+                                <button type="submit" class="btn btn-primary btn-sm px-3 w-50">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="Assests/bootstrap/js/bootstrap.min.js"></script>
+    <script src="Js/search.js"></script>
+    <script src="Js/down.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+                const urlParams = new URLSearchParams(window.location.search);
+
+                if (urlParams.get('success')) {
+                    alert('දත්ත ඇතුළත් කිරීම සාර්ථකයි!');
+                }
+
+                if (urlParams.get('error')) {
+                    alert('ඇතුළත් කල අංකය දැනටමත් පවතී. කරුණාකර වෙනත් අංකයක් ඇතුළත් කරන්න.');
+                }
+
+                if (urlParams.get('success') || urlParams.get('error')) {
+                    history.replaceState(null, '', window.location.pathname);
+                }
+            });
+
+        
+                    function refreshAutoIncrementId() {
+                        fetch('php/get_auto_id.php')
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.next_id) {
+                                    document.getElementById('id').value = data.next_id;
+                                } else {
+                                    console.error('Error fetching auto-generated ID:', data.error);
+                                }
+                            })
+                            .catch(error => console.error('Error:', error));
+    }
+
+                    // Refresh the auto-increment ID every 5 seconds
+                    setInterval(refreshAutoIncrementId, 1000);
+
+                    // Fetch the initial auto-increment ID when the page loads
+                    document.addEventListener('DOMContentLoaded', refreshAutoIncrementId);
+            
+
+
+            document.addEventListener('DOMContentLoaded', function () {
+                    const today = new Date();
+                    const formattedDate = today.toISOString().split('T')[0];
+                    document.getElementById('date').value = formattedDate;
+                });
+
+    </script>
+</body>
+
+</html>

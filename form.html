@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Assests/bootstrap/css/bootstrap.min.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="content" class="container">
+        <div id="page" class="site">
+            <div class="container mt-5 d-flex justify-content-center ">
+                <div class="form-box p-5 border rounded shadow-lg card">
+                    <form action="php/form_submit.php" method="post" enctype="multipart/form-data">
+                        <div class="form-step active">
+                            <div class="text-center mb-4">
+                                <h2 class="text-primary fw-bold">Receipt Information</h2>
+                                <p class="text-muted fs-4">Enter Details Below</p>
+                            </div>
+                            <div class="mb-4">
+                                <label for="num" class="form-label fs-6 fw-bold">රිසිට් අංකය :</label>
+                                <input type="text" id="num" name="num" class="form-control form-control-sm"
+                                    placeholder="Enter no." required>
+                            </div>
+    
+                            <div class="mb-4">
+                                <label for="pdf" class="form-label fs-6 fw-bold">PDF :</label>
+                                <input type="file" id="pdf" name="pdf" class="form-control form-control-sm" required>
+                            </div>
+
+                            <!-- <div class="mb-4">
+                                <label for="date" class="form-label fs-6 fw-bold">දිනය :</label>
+                                <input type="date" id="date" name="date" class="form-control form-control-sm"
+                                    placeholder="Enter address" required>
+                            </div> -->
+    
+                        <div class="d-flex justify-content-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-sm px-3 w-50">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    
+    <script src="Assests/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

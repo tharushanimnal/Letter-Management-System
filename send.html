@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="Assests/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="CSS/table.css">
+    <style>
+        .table-scroll {
+            max-height: 400px; 
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            display: block;
+        }
+
+        table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background-color: white;
+        }
+
+        .table td.address-column {
+            width: 500px;
+            word-wrap: break-word;
+            white-space: normal;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="d-flex" id="filterId">
+        <div class="p-5 col-12 col-md-12 position-relative">
+            <div class="row">
+                <div class="col-12 col-md-12 mb-3">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <input type="text" id="letId" class="form-control" placeholder="ලිපි අංකය">
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="text" id="subId" class="form-control" placeholder="විශය අංකය">
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="date" id="d1" class="form-control" placeholder="Date">
+                        </div>
+                        <div class="col-lg-2">
+                            <select class="form-select" id="dept">
+                                <option value="" disabled selected hidden>අංශය තෝරන්න</option>
+                                <option value="ගිණුම් අංශය">ගිණුම් අංශය</option>
+                                <option value="ආයතන අංශය">ආයතන අංශය</option>
+                                <option value="ක්‍රීඩා අංශය">ක්‍රීඩා අංශය</option>
+                                <option value="සංවර්ධන අංශය">සංවර්ධන අංශය </option>
+                                <option value="සංස්කෘතික අංශය">සංස්කෘතික අංශය</option>
+                                <option value="ග්‍රාම සංවර්ධන අංශය">ග්‍රාම සංවර්ධන අංශය</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-2">
+                            <button class="btn btn-primary w-10" id="btn-search" onclick="advSearch();">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="table-scroll">
+    <table class="table mt-5">
+        <thead>
+            <tr>
+                <th>ලිපි අංකය</th>
+                <th>අංශය</th>
+                <th>විශය අංකය</th>
+                <th>ලිපිනය</th>
+                <th>මිල</th>
+                <th>දිනය</th>
+            </tr>
+        </thead>
+        <tbody id="data-table">
+            <!-- Search results -->
+        </tbody>
+    </table>
+</div>
+    <div class="row">
+        <div class="print-button col-12 col-lg-6">
+            <button type="button" class="btn btn-secondary mt-2 mx-2" id="print-btn" onclick="window.print()"><img
+                    src="img/print.png" alt="icon" style="width:24px; height:24px;"></button>
+        </div>
+    </div>
+
+    <script src="Js/search.js"></script>
+    <script src="Assests/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>

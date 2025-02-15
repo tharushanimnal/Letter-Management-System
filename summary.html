@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary</title>
+    <link rel="stylesheet" href="Assests/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="CSS/summary.css">
+    <style>
+        body {
+            background: url("img/bg.jpg") no-repeat center center fixed;
+            background-size: cover;
+            backdrop-filter: blur(8px);
+            overflow: hidden;
+            height: 120vh;
+            margin: 0;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Summary</h2>
+    <form id="summaryForm">
+        <label for="date">Select Date:</label>
+        <input type="date" id="date" name="date" required>
+        <button type="submit" id="summ">Get Summary</button>
+    </form>
+
+    <div id="summaryResult"></div>
+
+    <div id="buttonContainer" class="button-container" style="display: none;">
+        <button id="printSummary" class="btn btn-primary mt-4 mx-2">
+            <img src="img/print.png" alt="Print"></button>
+        <button id="exportExcel" class="btn btn-success mt-4 mx-2">
+            <img src="img/ecxel.png" alt="Excel"></button>
+    </div>
+    <script>
+        document.getElementById('summaryForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var date = document.getElementById('date').value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'php/fetch_summary.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    document.getElementById('summaryResult').innerHTML = xhr.responseText;
+                    document.getElementById('buttonContainer').style.display = 'flex';
+                } else {
+                    console.error('Error fetching summary: ' + xhr.statusText);
+                }
+            };
+            xhr.send('date=' + encodeURIComponent(date));
+        });
+
+        document.getElementById('printSummary').addEventListener('click', function () {
+            var printContent = document.getElementById('summaryResult').innerHTML;
+            var printWindow = window.open('', '', 'width=800,height=600');
+            printWindow.document.write('<html><head><title>Print Summary</title></head><body>');
+            printWindow.document.write(printContent);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        });
+
+        document.getElementById('exportExcel').addEventListener('click', function () {
+            var summaryResult = document.getElementById('summaryResult');
+            if (!summaryResult) {
+                alert('No summary data available to export.');
+                return;
+            }
+
+            var selectedDate = document.getElementById('date').value;
+            if (!selectedDate) {
+                alert('Please select a date before exporting.');
+                return;
+            }
+
+            var clone = summaryResult.cloneNode(true);
+
+            var spacer = document.createElement('div');
+            spacer.style.height = '20px';
+            clone.appendChild(spacer);
+
+            var worksheet = XLSX.utils.table_to_sheet(clone);
+
+            var workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Summary');
+
+            var filename = 'Summary_' + selectedDate + '.xlsx';
+            XLSX.writeFile(workbook, filename);
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+</body>
+
+</html>
